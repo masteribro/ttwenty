@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ttwenty/Constant/color.dart';
+import 'package:ttwenty/pages/onboarding/onboarding.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -7,8 +9,17 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+    backgroundColor: AppColor.black,
       body: Center(
-        child: Text(''),
+        child: InkWell(
+          onTap: (){Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const OnboardingPage()),
+          );},
+          child: Image.asset('assets/ttwenty.jpeg',
+            scale: 6,
+          ),
+        ),
       ),
     );
   }
