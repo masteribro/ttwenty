@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:ttwenty/pages/auth/signin/signin.dart';
 
 import '../../Constant/color.dart';
-import '../auth/signin/signin.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class OnboardingPage extends StatelessWidget {
               child: Row(
                 children: const [
                   Text(
-                    'My Ride',
+                    'Twenty',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -34,16 +34,43 @@ class OnboardingPage extends StatelessWidget {
             SizedBox(
               width: 150,
               height: 150,
-              child: Image.asset('assets/images/car_red_success.png', fit: BoxFit.scaleDown),
+              child: Image.asset('assets/ttwenty.jpeg', fit: BoxFit.scaleDown),
             ),
             const SizedBox(height: 40),
-            Text(
-              "At my ride.com, we offer quality corporative and private transportation service across the entire metro Atlanta area at reasonable price. We know that in today's world, time is money. That's why we promise to get you wherever you are going on time, every time.",
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: Colors.white,
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                text: "Simple Wallet Control, Easy Transfer Money \n",
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                ),
+
+                children: [
+                  TextSpan(
+                    text: "Fast execution, real time market data and smart notification ",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'The future is in your hand all the things are easy with twenty',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: AppColor.white,
+
+                    ),
+                  ),
+                  TextSpan(
+                    text: '\n Trade Wisely ',
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
-              textAlign: TextAlign.justify,
             ),
             const SizedBox(height: 30),
             RichText(
@@ -54,14 +81,14 @@ class OnboardingPage extends StatelessWidget {
                   TextSpan(
                     text: "iPhone users can call ",
                     style: TextStyle(
-                      fontSize: 16.sp,
+                      fontSize: 16,
                       color: Colors.white,
                     ),
                   ),
                   TextSpan(
                     text: 'customer care',
                     style: TextStyle(
-                      fontSize: 16.sp,
+                      fontSize: 16,
                       color: AppColor.textGreen10,
                       decoration: TextDecoration.underline,
                     ),
@@ -69,7 +96,7 @@ class OnboardingPage extends StatelessWidget {
                   TextSpan(
                     text: '\nto register and book rides',
                     style: TextStyle(
-                      fontSize: 17.sp,
+                      fontSize: 17,
                       color: Colors.white,
                     ),
                   ),
@@ -77,12 +104,9 @@ class OnboardingPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 40, right: Adaptive.w(15), left: Adaptive.w(15)),
+              padding: EdgeInsets.only(top: 40, right: 15, left: 15),
               child: ElevatedButton(
                 onPressed: () {
-
-
-
 
                 },
                 child: const Text("Get Started"),
@@ -100,7 +124,7 @@ class OnboardingPage extends StatelessWidget {
                 Text(
                   "Already have an account? ",
                   style: TextStyle(
-                    fontSize: 15.sp,
+                    fontSize: 15,
                     color: Colors.white,
                   ),
                 ),
@@ -108,13 +132,13 @@ class OnboardingPage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) =>  SigninPage()),
+                      MaterialPageRoute(builder: (context) => SigninPage()),
                     );
                   },
                   child: Text(
                     "Sign in",
                     style: TextStyle(
-                      fontSize: 15.sp,
+                      fontSize: 15,
                       color: AppColor.textGreen10,
                     ),
                   ),

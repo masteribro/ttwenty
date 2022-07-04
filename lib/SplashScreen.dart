@@ -14,7 +14,7 @@ class SplashScreen extends StatelessWidget {
         child: InkWell(
           onTap: (){Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const OnboardingPage()),
+            MaterialPageRoute(builder: (context) =>  OnboardingPage()),
           );},
           child: Image.asset('assets/ttwenty.jpeg',
             scale: 6,

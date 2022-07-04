@@ -28,7 +28,7 @@ class _LoadingButtonState extends State<LoadingButton> {
           : Text(widget.label),
       style: ButtonStyle(
         minimumSize: MaterialStateProperty.all(const Size.fromHeight(50)),
-        backgroundColor: MaterialStateProperty.all(AppColor.primary.disable(widget.disabled == true)),
+        backgroundColor: MaterialStateProperty.all(AppColor.bgGrey1.disable(widget.disabled == true)),
         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),
       ),
     );
