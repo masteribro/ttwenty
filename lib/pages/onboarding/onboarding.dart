@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:ttwenty/pages/auth/Signup/signup.dart';
 import 'package:ttwenty/pages/auth/signin/signin.dart';
 
 import '../../Constant/color.dart';
+import '../../utills/router.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({Key? key}) : super(key: key);
@@ -107,8 +109,11 @@ class OnboardingPage extends StatelessWidget {
               padding: EdgeInsets.only(top: 40, right: 15, left: 15),
               child: ElevatedButton(
                 onPressed: () {
-
-                },
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>  const PhoneNumberPage()),
+                  );
+                    },
                 child: const Text("Get Started"),
                 style: ButtonStyle(
                   minimumSize: MaterialStateProperty.all(const Size.fromHeight(50)),
