@@ -9,10 +9,15 @@ class AppColor{
   static const Color black = Colors.black;
   static const Color orange = Color(0XFFF79837);
   static const Color secondary = Color(0XFF27BC80);
+  static const Color lightOrange = Color(0XFFEAE3D2);
+  static const Color lightMaroon = Color(0XFFFF8FB1);
+  static const Color bluegrey = Color(0XFFB2C8DF);
   static const Color greyWhite = Color(0XFFF7F7F7);
   static const Color greyWhite1 = Color.fromARGB(255, 248, 246, 246);
   static const Color bgGrey1 = Color(0XFFCACACA);
   static const Color red = Colors.red;
+  static const Color lightBlack = Colors.white24;
+  static const Color lightBlack2 = Colors.white30;
   static const Color white = Color(0XFFffffff);
   static const Color transparent = Colors.transparent;
   static const Color grey1 = Color.fromARGB(255, 118, 115, 115);

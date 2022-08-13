@@ -11,10 +11,6 @@ import '../repository/auth_repo.dart';
 import '../utills/FlushBarMixin.dart';
 
 
-
-
-
-
 class AuthController extends ControllerMVC with FlushBarMixin {
   factory AuthController([StateMVC? state]) =>
       _this ??= AuthController._(state);
@@ -28,8 +24,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   final AuthModel model;
 
   final AuthRepo authRepo = AuthRepo();
-  String deviceToken = "DeviceTokin";
-  String countryCode = "+234";
 
   void signIn() async {
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'SplashScreen.dart';
 
@@ -12,15 +13,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return  ResponsiveSizer(
+        builder: (context, orientation, screenType) {
+          return MaterialApp(
+      title: 'Ttwenty',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
 
         primarySwatch: Colors.blue,
       ),
       home: const SplashScreen(),
-    );
+    );});
   }
 }
 
