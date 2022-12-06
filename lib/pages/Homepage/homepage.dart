@@ -54,13 +54,13 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(
                               height: 0.5.h,
                             ),
-                            Text(
-                              'Hello, Umar',
-                              style: TextStyle(color: AppColor.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15.sp
-                              ),
-                            ),
+                            // Text(
+                            //   'Hello,${con.model.regFirstNameController} ${con.model.regFirstNameController}',
+                            //   style: TextStyle(color: AppColor.white,
+                            //       fontWeight: FontWeight.bold,
+                            //       fontSize: 15.sp
+                            //   ),
+                            // ),
                           ],
                         ),
 

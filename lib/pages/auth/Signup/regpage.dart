@@ -9,6 +9,7 @@ import '../../../Constant/color.dart';
 import '../../../Constant/constant.dart';
 import '../../../Controller/auth_controller.dart';
 import '../../../partials /mixins/validation.dart';
+import '../../../utills/router.dart';
 import '../../Homepage/homepage.dart';
 
 class ContactInfoPage extends StatefulWidget {
@@ -31,152 +32,153 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage> with ValidationMix
     con.model.regPhoneNumberController.text = con.model.insertPhoneController.text;
   }
 
-
+  String error = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar.defaultAppBar(context),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: SizedBox(
-          height:  500,
-          child: Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            key: con.model.regFormKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Contact Information',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColor.primary,
-                  ),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+        child: Form(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          key: con.model.regFormKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Contact Information',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppColor.primary,
                 ),
-                const SizedBox(height: 40),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      TextFormField(
-                        validator: validateName,
-                        controller: con.model.regFirstNameController,
-                        decoration: Constants.defaultDecoration.copyWith(
-                          labelText: "First Name",
-                        ),
+              ),
+              const SizedBox(height: 40),
+              Expanded(
+                child: ListView(
+                  children: [
+                    TextFormField(
+                      validator: validateName,
+                      controller: con.model.regFirstNameController,
+                      decoration: Constants.defaultDecoration.copyWith(
+                        labelText: "First Name",
                       ),
-                      TextFormField(
-                        validator: validateName,
-                        controller: con.model.regLastNameController,
-                        decoration: Constants.defaultDecoration.copyWith(
-                          labelText: "Last Name",
-                        ),
+                    ),
+                    TextFormField(
+                      validator: validateName,
+                      controller: con.model.regLastNameController,
+                      decoration: Constants.defaultDecoration.copyWith(
+                        labelText: "Last Name",
                       ),
-                      TextFormField(
-                        validator: validatePhone,
+                    ),
+                    TextFormField(
+                      validator: validatePhone,
 
-                        // readOnly: true,
-                        controller: con.model.regPhoneNumberController,
-                        decoration: Constants.defaultDecoration.copyWith(
-                          labelText: "Phone Number",
-                        ),
+                      // readOnly: true,
+                      controller: con.model.regPhoneNumberController,
+                      decoration: Constants.defaultDecoration.copyWith(
+                        labelText: "Phone Number",
                       ),
-                      TextFormField(
-                        validator: validateEmail,
-                        controller: con.model.regEmailController,
-                        decoration: Constants.defaultDecoration.copyWith(
-                          labelText: "Email Address",
-                        ),
+                    ),
+                    TextFormField(
+                      validator: validateEmail,
+                      controller: con.model.regEmailController,
+                      decoration: Constants.defaultDecoration.copyWith(
+                        labelText: "Email Address",
                       ),
-                      // TextFormField(
-                      //   validator: validateDeviceType,
-                      //   controller: con.model.regdeviceTypeController,
-                      //   decoration: Constants.defaultDecoration.copyWith(
-                      //     labelText: "Device Type",
-                      //   ),
-                      // ),
-                      TextFormField(
-                        validator: validatePassword,
-                        obscureText: true,
-                        controller: con.model.regPasswordController,
-                        decoration: Constants.defaultDecoration.copyWith(
-                          labelText: "Password",
-                        ),
-                      ),
-                      TextFormField(
-                        obscureText: true,
-                        controller: con.model.regConfirmPassController,
-                        decoration: Constants.defaultDecoration.copyWith(
-                          labelText: "confirm password",
-                        ),
-                      ),
+                    ),
 
-                      const SizedBox(height: 50),
-                      Center(
-                        child: RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: AppColor.primary,
-                            ),
-                            text: "By clicking on the register button, you have agreed to the ",
-                            children: const [
-                              TextSpan(
-                                text: "terms & condition",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColor.primary,
-                                ),
-                              ),
-                              TextSpan(
-                                text: ' and ',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: AppColor.primary,
-                                ),
-                              ),
-                              TextSpan(
-                                text: 'privacy policy',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColor.primary,
-                                ),
-                              ),
-                              TextSpan(
-                                text: '.',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: AppColor.primary,
-                                ),
-                              ),
-                            ],
+                    TextFormField(
+                      validator: validatePassword,
+                      obscureText: true,
+                      controller: con.model.regPasswordController,
+                      decoration: Constants.defaultDecoration.copyWith(
+                        labelText: "Password",
+                      ),
+                    ),
+                    TextFormField(
+                      obscureText: true,
+                      controller: con.model.regConfirmPassController,
+                      decoration: Constants.defaultDecoration.copyWith(
+                        labelText: "confirm password",
+                      ),
+                    ),
+
+                    const SizedBox(height: 40),
+                    Center(
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColor.primary,
                           ),
+                          text: "By clicking on the register button, you have agreed to the ",
+                          children: const [
+                            TextSpan(
+                              text: "terms & condition",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppColor.primary,
+                              ),
+                            ),
+                            TextSpan(
+                              text: ' and ',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: AppColor.primary,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'privacy policy',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppColor.primary,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '.',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: AppColor.primary,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      Padding(
-                        padding: EdgeInsets.only(top: 40, right:15, left: 15),
-                        child: LoadingButton(
-                          isLoading: con.model.isLoading,
-                          label: "Register",
-                          onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) =>  const HomePage ()),
-                            );
-                          },
-                          disabled: con.model.regFormKey.currentState?.validate(),
-                        ),
+                    ),
+                    const SizedBox(height: 5),
+                    Padding(
+                      padding: EdgeInsets.only(top: 40, right:15, left: 15),
+                      child: LoadingButton(
+                        isLoading: con.model.isLoading,
+                        label: "Register",
+                        onPressed: ()async{
+                          if(con.model.regFormKey.currentState!.validate()){
+                            String password,email;
+                            password = con.model.regPasswordController.text.trim();
+                            email = con.model.regEmailController.text.trim();
+                            dynamic result = await con.registerWithEmailAndPassword(email, password);
+                            if(result != null) {
+                              Routers.push(context, HomePage());
+                            }else{
+                              setState(() {
+                                error = 'Please supply a valid email';
+                              });
+                            }
+                          }
+
+                        },
+                        disabled: con.model.regFormKey.currentState?.validate(),
                       ),
-                      const SizedBox(height: 10),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 5),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

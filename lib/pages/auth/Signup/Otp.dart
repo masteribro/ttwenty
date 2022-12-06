@@ -66,7 +66,7 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
                         decoration: Constants.defaultDecoration.copyWith(labelText: "otp"),
                       ),*/
                       TextFormField(
-                        validator: validateOTP_Test,
+                        // validator: validateOTP_Test,
                         controller: con.model.otpController,
                         decoration: Constants.defaultDecoration.copyWith(
                           labelText: "OTP",
@@ -84,13 +84,8 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
                             isLoading: con.model.isLoading,
                             label: "Continue",
                             // onPressed: con.verifyOTP
-                            onPressed: (){
+                            onPressed: con.verifyCode
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const ContactInfoPage()),
-                              );
-                            }
                         ),
                       ),
                       const SizedBox(height: 40),

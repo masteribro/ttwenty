@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-
-// import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-
 import '../../../Component/loadingpage.dart';
 import '../../../Constant/color.dart';
 import '../../../Constant/constant.dart';
+import '../../../Controller/auth_controller.dart';
 import '../../../partials /mixins/validation.dart';
-import '../../../widget/text_form_field.dart';
+import '../../../utills/router.dart';
+import '../../Homepage/homepage.dart';
 import 'forgotpassword.dart';
 
 
@@ -19,9 +18,12 @@ class SigninPage extends StatefulWidget {
 }
 
 class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
-  _SigninPageState() : super() {}
-    bool obscureValue = true;
-
+  _SigninPageState() : super(AuthController()) {
+    con = controller as AuthController;
+  }
+  late AuthController con;
+    // bool obscureValue = true;
+  String error = '';
     @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -32,12 +34,12 @@ class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
             backgroundColor: AppColor.black),
         body: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: 5, vertical: 10),
+              horizontal: 10, vertical: 40),
           child: SingleChildScrollView(
             child: SizedBox(
 
               child: Form(
-
+                key: con.model.loginFormKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,18 +71,17 @@ class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
                       TextFormField(
 
                         validator: validateEmail,
+                     controller: con.model.emailController,
                      decoration: Constants.defaultDecoration.copyWith(
                       labelText: "Enter your email",
                        filled: true,
                        fillColor: AppColor.bgGrey1,
                      ),),
                         SizedBox(height: 10),
-              TextFormField(
-                style: const TextStyle(color: Colors.white),
-                validator: validatePassword,
-
-
-                decoration: Constants.defaultDecoration.copyWith(
+                     TextFormField(
+                      validator: validatePassword,
+                       controller: con.model.passwordController,
+                       decoration: Constants.defaultDecoration.copyWith(
                   filled: true,
                   fillColor: AppColor.bgGrey1,
                   labelText: "Enter your password",
@@ -97,8 +98,24 @@ class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
                               left: 15),
                           child: LoadingButton(
                             label: "Sign In",
-                            onPressed: (){},
-                            disabled: false, isLoading: null,
+                            isLoading: con.model.isLoading,
+                            onPressed: ()async{
+            if(con.model.loginFormKey.currentState!.validate()){
+          String loginPassword,loginEmail;
+          loginPassword = con.model.passwordController.text.trim();
+          loginEmail = con.model.emailController.text.trim();
+          dynamic result = await con.signInWithEmailAndPassword( loginEmail, loginPassword);
+          if(result != null) {
+          Routers.push(context, HomePage());
+          }else{
+          setState(() {
+          error = 'Please supply a valid email';
+          });
+          }
+          }
+
+          },
+                            // disabled: false,
 
                           ),
                         ),

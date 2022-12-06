@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 
 class AuthModel {
+  String verificationIdReceived = '';
   //Sign in
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -29,6 +31,8 @@ class AuthModel {
   final TextEditingController otpController = TextEditingController();
 
   final GlobalKey<FormState> otpFormKey = GlobalKey<FormState>();
+  FirebaseAuth auth = FirebaseAuth.instance;
+
 }
 
 class LoginModel {

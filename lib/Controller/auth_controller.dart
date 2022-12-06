@@ -1,4 +1,8 @@
 
+
+
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -7,8 +11,13 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 
 
 import '../model/auth_model.dart';
+import '../model/user.dart';
+import '../pages/Homepage/homepage.dart';
+import '../pages/auth/Signup/Otp.dart';
+import '../pages/auth/Signup/regpage.dart';
 import '../repository/auth_repo.dart';
 import '../utills/FlushBarMixin.dart';
+import '../utills/router.dart';
 
 
 class AuthController extends ControllerMVC with FlushBarMixin {
@@ -24,30 +33,117 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   final AuthModel model;
 
   final AuthRepo authRepo = AuthRepo();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+
+  UserModel? _userFromFirebaseUser(User? user) {
+    return user != null ? UserModel(uid: user.uid) : null;
+  }
+  Stream<UserModel?> get user {
+    return model.auth.authStateChanges()
+        .map((User? user) => _userFromFirebaseUser(user));
+
+  }
 
   void signIn() async {
 
   }
 
-  void signUp() async {
-;
+
+  Future signInWithEmailAndPassword(String email, String password) async {
+    try {
+      UserCredential result = await auth.signInWithEmailAndPassword(email: email, password: password);
+      User? user = result.user;
+      return user;
+    } catch (error) {
+      print(error.toString());
+      return null;
     }
-
-
   }
+
 
   void verifyOTP() async {
 
   }
+
   void phoneVerification() async {
+    if (1 == 1) {
+      setState(() {
+        model.isLoading = true;
+      });
+      if (model.insertPhoneFormKey.currentState?.validate() == true) {
+        model.auth.verifyPhoneNumber(
+          phoneNumber: model.insertPhoneController.text,
+          verificationCompleted: (PhoneAuthCredential credential) async {
+            await model.auth.signInWithCredential(credential).then((value) {
+              print('you are logged in uhbhbhj');
+            });
+          },
+          verificationFailed: (FirebaseAuthException exception) {
+            print(exception.message);
+          },
+          codeSent: (String verifcationID, int? resendToken) {},
+          codeAutoRetrievalTimeout: (String verifcationID,) {
+            model.verificationIdReceived = verifcationID;
+          },);
 
 
+        Navigator.push(
+          state!.context,
+          MaterialPageRoute(builder: (context) => OTPPage(uuid: '',)),
+
+        );
+      } else {
+        showErrorNotification(state!.context, 'error');
+      }
+    }
+    setState(() {
+      model.isLoading = false;
+    });
   }
 
+  void verifyCode() async {
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: model.verificationIdReceived,
+        smsCode: model.otpController.text);
+    await model.auth.signInWithCredential(credential).then((value) {
+      print('master is in charge');
+    });
+    Navigator.push(
+        state!.context,
+        MaterialPageRoute(builder: (context) => const ContactInfoPage()));
+  }
 
+  Future registerWithEmailAndPassword(String email, String password) async {
+    try {
+      UserCredential result = await model.auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      User? user = result.user;
+      return _userFromFirebaseUser(user);
+    } catch (error) {
+      print(error.toString());
+      return null;
+    }
+  }
 
   void signOut(BuildContext context) async {
 
   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

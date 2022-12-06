@@ -1,11 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:ttwenty/pages/auth/Signup/signup.dart';
 import 'package:ttwenty/pages/auth/signin/signin.dart';
 
 import '../../Constant/color.dart';
 import '../../utills/router.dart';
+import '../auth/Signup/regpage.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({Key? key}) : super(key: key);
@@ -77,7 +77,7 @@ class OnboardingPage extends StatelessWidget {
             const SizedBox(height: 30),
             RichText(
               textAlign: TextAlign.center,
-              text: TextSpan(
+              text: const TextSpan(
                 text: "Note: \n",
                 children: [
                   TextSpan(
@@ -111,7 +111,7 @@ class OnboardingPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>  const PhoneNumberPage()),
+                    MaterialPageRoute(builder: (context) =>  ContactInfoPage()),
                   );
                     },
                 child: const Text("Get Started"),
@@ -135,10 +135,7 @@ class OnboardingPage extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SigninPage()),
-                    );
+                    Routers.pushNamed(context, '/sign_in');
                   },
                   child: Text(
                     "Sign in",
@@ -156,4 +153,5 @@ class OnboardingPage extends StatelessWidget {
       ),
     );
   }
+
 }
