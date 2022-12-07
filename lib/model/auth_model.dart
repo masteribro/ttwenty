@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class AuthModel {
   String verificationIdReceived = '';
   //Sign in
+  GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
@@ -26,6 +27,7 @@ class AuthModel {
   final TextEditingController insertPhoneController = TextEditingController();
   final GlobalKey<FormState> insertPhoneFormKey = GlobalKey<FormState>();
   bool isLoading = false;
+  bool loading = false;
 
   //otp
   final TextEditingController otpController = TextEditingController();
