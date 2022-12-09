@@ -6,20 +6,33 @@ import 'package:ttwenty/Constant/color.dart';
 import 'package:ttwenty/pages/Homepage/tabView/TabView3.dart';
 import 'package:ttwenty/pages/Homepage/tabView/Tabview1.dart';
 import 'package:ttwenty/pages/Homepage/tabView/Tabview2.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
+import '../../Controller/home_controller.dart';
+import '../../main.dart';
+import '../auth/Signup/regpage.dart';
+
+int? coinNo;
+
 class HomePage extends StatefulWidget {
    HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State createState()  => _HomePageState();
 
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
-  int intValue = 0;
+class _HomePageState extends StateMVC<HomePage> with SingleTickerProviderStateMixin{
+  _HomePageState () : super(HomeController()) {
+    con = controller as HomeController;
+  }
+  late HomeController con;
+
   late TabController tabController;
+  int intValue = 0;
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => openTheBook());
     tabController = TabController(length: 3, vsync: this);
     tabController.addListener(() {
       setState(() {
@@ -33,6 +46,21 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void dispose() {
     tabController.dispose();
     super.dispose();
+  }
+
+  openTheBook() {
+    if (dynamicPath != null) {
+      coinNo = -1;
+      if (dynamicPath == '/book0') {
+        coinNo = 0;
+      }
+      print(coinNo);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>  HomePage(
+              )));
+    }
   }
   @override
   Widget build(BuildContext context) {

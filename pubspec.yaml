@@ -48,7 +48,9 @@ dependencies:
   cached_network_image: ^3.2.1
   firebase_auth: ^3.6.3
   cloud_firestore: ^3.4.4
-  firebase_core: ^1.22.0
+  firebase_core:
+  share_plus: ^6.3.0
+  firebase_dynamic_links:
 
 dev_dependencies:
   flutter_test:

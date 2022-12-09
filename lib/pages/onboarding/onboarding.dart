@@ -4,12 +4,39 @@ import 'package:ttwenty/pages/auth/Signup/signup.dart';
 import 'package:ttwenty/pages/auth/signin/signin.dart';
 
 import '../../Constant/color.dart';
+import '../../main.dart';
 import '../../utills/router.dart';
+import '../Homepage/homepage.dart';
 import '../auth/Signup/regpage.dart';
 
-class OnboardingPage extends StatelessWidget {
+class OnboardingPage extends StatefulWidget {
   const OnboardingPage({Key? key}) : super(key: key);
 
+  @override
+  State<OnboardingPage> createState() => _OnboardingPageState();
+}
+
+class _OnboardingPageState extends State<OnboardingPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => openTheBook());
+  }
+  openTheBook() {
+    if (dynamicPath != null) {
+      coinNo = -1;
+      if (dynamicPath == '/book0') {
+        coinNo = 0;
+      }
+      print(coinNo);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>  HomePage(
+              )));
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,5 +180,4 @@ class OnboardingPage extends StatelessWidget {
       ),
     );
   }
-
 }
