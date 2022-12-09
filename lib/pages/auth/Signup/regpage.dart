@@ -45,7 +45,7 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage> with ValidationMix
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Contact Information',
                 style: TextStyle(
                   fontSize: 18,
@@ -108,13 +108,13 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage> with ValidationMix
                     Center(
                       child: RichText(
                         textAlign: TextAlign.center,
-                        text: TextSpan(
+                        text: const TextSpan(
                           style: TextStyle(
                             fontSize: 16,
                             color: AppColor.primary,
                           ),
                           text: "By clicking on the register button, you have agreed to the ",
-                          children: const [
+                          children: [
                             TextSpan(
                               text: "terms & condition",
                               style: TextStyle(
@@ -151,12 +151,13 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage> with ValidationMix
                     ),
                     const SizedBox(height: 5),
                     Padding(
-                      padding: EdgeInsets.only(top: 40, right:15, left: 15),
+                      padding: const EdgeInsets.only(top: 40, right:15, left: 15),
                       child: LoadingButton(
                         isLoading: con.model.isLoading,
                         label: "Register",
                         onPressed: ()async{
-                          if(con.model.regFormKey.currentState!.validate()){
+                          if(1==1){
+                            // con.model.regFormKey.currentState!.validate()
                             String password,email;
                             password = con.model.regPasswordController.text.trim();
                             email = con.model.regEmailController.text.trim();

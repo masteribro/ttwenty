@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -11,13 +12,31 @@ import 'model/user.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
+
+  runApp( MyApp(
+      initialLink:initialLink,
+  ));
+}
+String? dynamicPath;
+class MyApp extends StatefulWidget {
+  final PendingDynamicLinkData? initialLink;
+  const MyApp({Key? key, this.initialLink}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class _MyAppState extends State<MyApp> {
 
-  // This widget is the root of your application.
+
+  @override
+  initState() {
+    if (widget.initialLink != null) {
+      dynamicPath = widget.initialLink!.link!.path;
+    }
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return  ResponsiveSizer(
