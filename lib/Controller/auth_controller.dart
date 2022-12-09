@@ -45,8 +45,39 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
   }
 
-  void signIn() async {
 
+  Future signIn() async {
+    if (true) {
+      setState(() {
+        model.loading = true;
+      });
+      print(model.loading);
+
+      try {
+        var signInCredentials = await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: model.emailController.text.trim(),
+            password: model.passwordController.text.trim());
+        if (signInCredentials.user?.uid != null) {
+          print(signInCredentials.user?.uid);
+
+          // Routers.push(state!.context, HomePage());
+          Navigator.push(
+            state!.context,
+            MaterialPageRoute(builder: (context) =>  HomePage()),
+          );
+
+          showSuccessNotificationWithTime(state!.context,'success', 5);
+        } else {
+        }
+      } on FirebaseAuthException catch (e) {
+        print(e);
+        showSuccessNotification(state!.context, '$e');
+      }
+
+      setState(() {
+        model.loading = false;
+      });
+    }
   }
 
 
