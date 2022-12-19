@@ -68,7 +68,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
             const SizedBox(height: 40),
             RichText(
               textAlign: TextAlign.center,
-              text: TextSpan(
+              text: const TextSpan(
                 text: "Simple Wallet Control, Easy Transfer Money \n",
                 style: TextStyle(
                   fontSize: 25,
