@@ -1,14 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:ttwenty/utills/router.dart';
 
 import '../../Component/transaction_type.dart';
+import '../../Controller/auth_controller.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
 
+  @override
+  State createState() => _ProfileState();
+}
+
+class _ProfileState extends StateMVC<Profile> {
+  _ProfileState() : super(AuthController()) {
+    con = controller as AuthController;
+  }
+  late AuthController con;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +101,12 @@ class Profile extends StatelessWidget {
               ),
               Divider(
                 thickness: 1.h,
-              )
+              ),
+              GestureDetector(
+                  onTap: (){
+                    con.signOut();
+                  },
+                  child: const Text('Logout'))
             ],
           ),
         ),

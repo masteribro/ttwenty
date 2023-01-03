@@ -63,22 +63,22 @@ class _HomePageState extends StateMVC<HomePage> with SingleTickerProviderStateMi
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.black54,
+            backgroundColor: AppColor.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.business),
             label: 'Earn',
-            backgroundColor: Colors.green,
+            backgroundColor: AppColor.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.currency_bitcoin_sharp),
             label: 'Invest',
-            backgroundColor: Colors.purple,
+            backgroundColor: AppColor.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_card_sharp),
             label: 'Cards',
-            backgroundColor: Colors.pink,
+            backgroundColor: AppColor.black,
           ),
         ],
         currentIndex: _selectedIndex,
