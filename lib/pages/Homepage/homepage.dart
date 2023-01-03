@@ -84,7 +84,7 @@ class _HomePageState extends StateMVC<HomePage> with SingleTickerProviderStateMi
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
-      ),
+       ),
 
     );
 
