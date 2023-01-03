@@ -34,6 +34,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
   final AuthModel model;
   String error = '';
+  bool iconVisibility = false;
 
   final AuthRepo authRepo = AuthRepo();
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -171,7 +172,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         verificationId: model.verificationIdReceived,
         smsCode: model.otpController.text);
     await model.auth.signInWithCredential(credential).then((value) {
-      print('master is in charge');
+
     });
     Navigator.push(
         state!.context,
@@ -193,7 +194,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   void signOut() async {
     try{
       await FirebaseAuth.instance.signOut();
-      Routers.push(state!.context, const OnboardingPage());
+      Routers.replace(state!.context, const OnboardingPage());
       showSuccessNotificationWithTime(state!.context,'Signed out', 5);
     }on FirebaseAuthException catch(e){
       print(e);
