@@ -32,7 +32,7 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage> with ValidationMix
     con.model.regPhoneNumberController.text = con.model.insertPhoneController.text;
   }
 
-  String error = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +73,6 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage> with ValidationMix
                     ),
                     TextFormField(
                       validator: validatePhone,
-
                       // readOnly: true,
                       controller: con.model.regPhoneNumberController,
                       decoration: Constants.defaultDecoration.copyWith(
@@ -155,23 +154,7 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage> with ValidationMix
                       child: LoadingButton(
                         isLoading: con.model.isLoading,
                         label: "Register",
-                        onPressed: ()async{
-                          if(1==1){
-                            // con.model.regFormKey.currentState!.validate()
-                            String password,email;
-                            password = con.model.regPasswordController.text.trim();
-                            email = con.model.regEmailController.text.trim();
-                            dynamic result = await con.registerWithEmailAndPassword(email, password);
-                            if(result != null) {
-                              Routers.push(context, HomePage());
-                            }else{
-                              setState(() {
-                                error = 'Please supply a valid email';
-                              });
-                            }
-                          }
-
-                        },
+                        onPressed: con.reg,
                         disabled: con.model.regFormKey.currentState?.validate(),
                       ),
                     ),

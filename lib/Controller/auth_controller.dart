@@ -2,6 +2,7 @@
 
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -15,6 +16,7 @@ import '../model/user.dart';
 import '../pages/Homepage/homepage.dart';
 import '../pages/auth/Signup/Otp.dart';
 import '../pages/auth/Signup/regpage.dart';
+import '../pages/onboarding/onboarding.dart';
 import '../repository/auth_repo.dart';
 import '../utills/FlushBarMixin.dart';
 import '../utills/router.dart';
@@ -31,6 +33,8 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   static AuthController? _this;
 
   final AuthModel model;
+  String error = '';
+  bool iconVisibility = false;
 
   final AuthRepo authRepo = AuthRepo();
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -51,7 +55,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       setState(() {
         model.loading = true;
       });
-      print(model.loading);
 
       try {
         var signInCredentials = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -60,11 +63,11 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         if (signInCredentials.user?.uid != null) {
           print(signInCredentials.user?.uid);
 
-          // Routers.push(state!.context, HomePage());
-          Navigator.push(
-            state!.context,
-            MaterialPageRoute(builder: (context) =>  HomePage()),
-          );
+          Routers.push(state!.context, HomePage());
+          // Navigator.push(
+          //   state!.context,
+          //   MaterialPageRoute(builder: (context) =>  HomePage()),
+          // );
 
           showSuccessNotificationWithTime(state!.context,'success', 5);
         } else {
@@ -72,6 +75,37 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       } on FirebaseAuthException catch (e) {
         print(e);
         showSuccessNotification(state!.context, '$e');
+      }
+
+      setState(() {
+        model.loading = false;
+      });
+    }
+  }
+
+  Future reg() async {
+    if (true) {
+      setState(() {
+        model.loading = true;
+      });
+
+      try {
+        String password,email;
+        password = model.regPasswordController.text.trim();
+        email = model.regEmailController.text.trim();
+        dynamic result = await registerWithEmailAndPassword(email, password);
+        createUser(fName: model.regFirstNameController.text, lName: model.regLastNameController.text, email: model.regEmailController.text, phoneNo: model.regPhoneNumberController.text);
+        if(result != null) {
+          Routers.push(state!.context, HomePage());
+          showSuccessNotificationWithTime(state!.context,'success', 5);
+        }else{
+          showInfoNotification(state!.context, 'error');
+        }
+
+      } on FirebaseAuthException catch (e) {
+        showInfoNotification(state!.context, '$e');
+        showInfoNotification(state!.context, '$e');
+
       }
 
       setState(() {
@@ -138,7 +172,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         verificationId: model.verificationIdReceived,
         smsCode: model.otpController.text);
     await model.auth.signInWithCredential(credential).then((value) {
-      print('master is in charge');
+
     });
     Navigator.push(
         state!.context,
@@ -157,9 +191,40 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     }
   }
 
-  void signOut(BuildContext context) async {
+  void signOut() async {
+    try{
+      await FirebaseAuth.instance.signOut();
+      Routers.replace(state!.context, const OnboardingPage());
+      showSuccessNotificationWithTime(state!.context,'Signed out', 5);
+    }on FirebaseAuthException catch(e){
+      print(e);
+    }
+  }
+
+
+  Future createUser(
+      {required fName,
+        required lName,
+        required email,
+        required phoneNo,
+      })
+  async{
+    final docUser = FirebaseFirestore.instance.collection("user").doc();
+    final json = {
+      "fName":fName,
+      "lName":lName,
+      "email":email,
+      "phoneNo": phoneNo,
+    };
+    if(docUser.path.isNotEmpty) {
+      await docUser.set(json);
+      // showSuccessNotificationWithTime(state!.context,'success', 5);
+    }else{
+      null;
+    }
 
   }
+
 }
 
 

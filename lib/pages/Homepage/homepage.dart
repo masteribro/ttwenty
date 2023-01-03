@@ -7,11 +7,13 @@ import 'package:ttwenty/pages/Homepage/tabView/TabView3.dart';
 import 'package:ttwenty/pages/Homepage/tabView/Tabview1.dart';
 import 'package:ttwenty/pages/Homepage/tabView/Tabview2.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:ttwenty/pages/Homepage/tabView/tabview4.dart';
+import '../../Component/transaction_box.dart';
 import '../../Controller/home_controller.dart';
 import '../../main.dart';
 import '../auth/Signup/regpage.dart';
 
-int? coinNo;
+int? coinNo = -1;
 
 class HomePage extends StatefulWidget {
    HomePage({Key? key}) : super(key: key);
@@ -29,226 +31,61 @@ class _HomePageState extends StateMVC<HomePage> with SingleTickerProviderStateMi
 
   late TabController tabController;
   int intValue = 0;
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => openTheBook());
-    tabController = TabController(length: 3, vsync: this);
-    tabController.addListener(() {
-      setState(() {
 
-      });
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static  final List<Widget> _widgetOptions = <Widget>[
+    const TabView1(),
+    const TabView2(),
+    const TabView3(),
+    const TabView4(),
+
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
     });
-
-  }
-
-  @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
-  }
-
-  openTheBook() {
-    if (dynamicPath != null) {
-      coinNo = -1;
-      if (dynamicPath == '/book0') {
-        coinNo = 0;
-      }
-      print(coinNo);
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>  HomePage(
-              )));
-    }
   }
   @override
   Widget build(BuildContext context) {
-    // getting the orientation of the app
-    var orientation = MediaQuery.of(context).orientation;
-    // getting the size of the window
-    var size = MediaQuery.of(context).size;
-    var height = size.height;
-    var width = size.width;
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(36.h),
-          child: SingleChildScrollView(
-            child: Container(
-              color: AppColor.black,
-              child: SafeArea(
-                  child: Padding(padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'My Account',
-                                  style: TextStyle(color: AppColor.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.sp
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 0.5.h,
-                                ),
-                                // Text(
-                                //   'Hello,${con.model.regFirstNameController} ${con.model.regFirstNameController}',
-                                //   style: TextStyle(color: AppColor.white,
-                                //       fontWeight: FontWeight.bold,
-                                //       fontSize: 15.sp
-                                //   ),
-                                // ),
-                              ],
-                            ),
 
-
-                            CircleAvatar(
-                              radius: 30,
-                              child: intValue == 0
-                                  ? CachedNetworkImage(
-                                imageUrl: "",
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover),
-                                      ),
-                                    ),
-                                placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                const CircularProgressIndicator(),
-                              )
-                                  : CachedNetworkImage(
-                                imageUrl: '',
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover),
-                                      ),
-                                    ),
-                                placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                const CircularProgressIndicator(),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        Text(
-                          '\$17,000.00 ',
-                          style: TextStyle(color: AppColor.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30.sp
-                          ),
-                        ),
-                        Container(
-                          height: 30,
-                          width: 100,
-                          decoration: BoxDecoration(
-                              color: AppColor.lightBlack,
-                              borderRadius: BorderRadius.circular(9)
-                          ),
-                          child: const Center(
-                            child: Text('3.21%', style: TextStyle(color: Colors.white),),
-                          ),
-
-                        ),
-                        SizedBox(
-                          height: 2.5.h,
-                        ),
-
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        TabBar(
-                          controller:  tabController,
-                          indicatorSize: TabBarIndicatorSize.label,
-                          isScrollable: true,
-                          indicatorColor: AppColor.black,
-                          unselectedLabelColor: AppColor.black,
-                          labelColor: AppColor.black,
-                          padding: EdgeInsets.only(left: 40.w, ),
-                          indicatorPadding: EdgeInsets.zero,
-                          labelPadding: EdgeInsets.only(left: 1.w, right: 1.w),
-                          onTap: (int) {
-                            setState(() {
-                              intValue = int;
-                            });
-                          },
-                          tabs: [
-                            Tab(
-                              child: Container(
-                                height: 3.h,
-                                width: 3.w,
-                                decoration: BoxDecoration(
-                                  color: intValue == 0
-                                      ? AppColor.lightBlack2
-                                      : AppColor.white,
-                                  shape: BoxShape.circle,),
-                              ),
-                            ),
-                            Tab(
-
-                              child: Container(
-                                height: 3.h,
-                                width: 3.w,
-                                decoration: BoxDecoration(
-                                  color: intValue== 1
-                                      ? AppColor.lightBlack2
-                                      : AppColor.white,
-                                  shape: BoxShape.circle,),
-                              ),
-                            ),
-                            Tab(
-
-                              child: Container(
-                                height: 3.h,
-                                width: 3.w,
-                                decoration: BoxDecoration(
-                                  color: intValue == 2
-                                      ? AppColor.lightBlack2
-                                      : AppColor.white,
-                                  shape: BoxShape.circle,),
-                              ),
-                            ),
-
-                          ],
-                        ),
-
-                      ],
-                    ),
-
-                  )
-              ),
-            ),
-          ),
-        ),
-        body: TabBarView(
-          controller: tabController,
-          physics: const BouncingScrollPhysics(),
-          children: const [
-
-            TabView1(),
-            TabView2(),
-            TabView3(),
-          ],
+    return  Scaffold(
+      body: SafeArea(
+        child: Padding(
+            padding: const EdgeInsets.only(left: 19,right: 19, top: 19),
+            child: _widgetOptions.elementAt(_selectedIndex)
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: AppColor.black,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Earn',
+            backgroundColor: AppColor.black,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.currency_bitcoin_sharp),
+            label: 'Invest',
+            backgroundColor: AppColor.black,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_card_sharp),
+            label: 'Cards',
+            backgroundColor: AppColor.black,
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
+      ),
+
     );
 
 
