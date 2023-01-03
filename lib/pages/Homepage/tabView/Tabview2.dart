@@ -17,15 +17,9 @@ class _TabView2State extends State<TabView2> {
     var height = size.height;
     var width = size.width;
     return Scaffold(
-        backgroundColor: AppColor.black,
-        body: Container(
-          height: height,
-          width: width,
-          decoration: BoxDecoration(
-              color: AppColor.white,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight:Radius.circular(30) )
-          ),
-        )
+      body: Column(
+
+      ),
     );
   }
 }

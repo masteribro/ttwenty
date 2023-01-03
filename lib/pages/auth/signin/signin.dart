@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import '../../../Component/loadingpage.dart';
+import '../../../Component/transaction_box.dart';
 import '../../../Constant/color.dart';
 import '../../../Constant/constant.dart';
 import '../../../Controller/auth_controller.dart';
@@ -25,10 +26,12 @@ class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
 
   // bool obscureValue = true;
   String error = '';
+  String amount = "N0.00";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: AppColor.black,
       appBar: AppBar(
           leading: const SizedBox(),
@@ -98,7 +101,7 @@ class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
                           label: "Sign In",
                           isLoading: con.model.loading,
                           onPressed: () {  con.signIn();
-                          Routers.push(context, HomePage());
+
                           }
                             //     () async {
                           //   if (con.model.loginFormKey.currentState!
