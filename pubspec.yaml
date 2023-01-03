@@ -52,7 +52,8 @@ dependencies:
   firebase_core:
   share_plus: ^6.3.0
   firebase_dynamic_links:
-  flutter_stripe: ^7.0.0
+  flutter_stripe:
+
 
 dev_dependencies:
   flutter_test:

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class TransactionBox extends StatelessWidget {
-  const TransactionBox({Key? key}) : super(key: key);
-
+  TransactionBox({Key? key, required this.icon}) : super(key: key);
+IconData icon;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,7 +15,7 @@ class TransactionBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(3.h)
       ),
 
-      child: const Icon(Icons.money_outlined),
+      child:  Icon(icon),
     );
   }
 }

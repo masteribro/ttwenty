@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
+// import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:ttwenty/router/routes.dart';
@@ -12,7 +12,7 @@ import 'model/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey = 'pk_test_51MEWQbF5ek3U9zqun14yXhamEzurXkiJ9h3MvVUt9613OdbWWwzizxMeHPvoJKcVYQ2YYBmniGSmcK2tvaPLYvwB00cuYY3Cj2';
+  // Stripe.publishableKey = 'pk_test_51MEWQbF5ek3U9zqun14yXhamEzurXkiJ9h3MvVUt9613OdbWWwzizxMeHPvoJKcVYQ2YYBmniGSmcK2tvaPLYvwB00cuYY3Cj2';
   await Firebase.initializeApp();
   final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
 
