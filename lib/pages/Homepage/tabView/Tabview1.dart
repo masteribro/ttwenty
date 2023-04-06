@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:ttwenty/Constant/color.dart';
+import 'package:ttwenty/pages/create_wallet.dart';
 import '../../../Component/transaction_box.dart';
 import '../../../Component/transaction_type.dart';
 import '../../../Controller/home_controller.dart';
+import '../../../utills/firestore.dart';
 import '../../../utills/router.dart';
 import '../../profile/profile.dart';
 import '../../send_transaction/send_transaction.dart';
@@ -26,6 +30,11 @@ class _TabView1State extends StateMVC<TabView1> {
     super.initState();
 
     }
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getAccount(){
+    var userInstance = FirebaseAuth.instance.currentUser;
+     return FirebaseFirestore.instance.collection('userDetails').doc(userInstance!.uid).snapshots();
+
+  }
     String amount = '0.00';
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -130,11 +139,60 @@ class _TabView1State extends StateMVC<TabView1> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children:   [
-                          const Text('Ibrahim Mohammed', style: TextStyle(color: AppColor.white, fontWeight: FontWeight.bold),),
-                          SizedBox(
-                            height: 0.4.h,
+
+                          Row(
+                            children: [
+                              StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                  stream: getAccount(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<DocumentSnapshot<Map<String,dynamic>>> snapshot) {
+
+                                    if (!snapshot.hasData) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+
+                                    return Expanded(
+                                      child: ListView(
+                                        shrinkWrap: true,
+                                        children: [
+                                        Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+
+                                              Text('${snapshot.data?['fName']} ${snapshot.data?['lName']}', style: TextStyle(color: AppColor.white, fontWeight: FontWeight.bold),),
+                                              SizedBox(
+                                                height: 0.4.h,
+                                              ),
+                                              const Text('*****123', style: TextStyle(color: AppColor.white),),
+                                            ],
+                                          ),
+                                        ],
+                                        // children: snapshot.data!.docs.map((document) {
+                                        //   return Column(
+                                        //     crossAxisAlignment: CrossAxisAlignment.start,
+                                        //     children: [
+                                        //
+                                        //       Text('${document['fName']} ${document['lName']}', style: TextStyle(color: AppColor.white, fontWeight: FontWeight.bold),),
+                                        //       SizedBox(
+                                        //         height: 0.4.h,
+                                        //       ),
+                                        //       const Text('*****123', style: TextStyle(color: AppColor.white),),
+                                        //     ],
+                                        //   );
+                                        // }).toList(),
+                                      ),
+                                    );
+                                  }),
+
+                              SizedBox(
+                                width: 24.w,
+                              ),
+                              Image.asset('assets/visa4.png',height: 4.h,width: 20.w,),
+                            ],
                           ),
-                          const Text('*****123', style: TextStyle(color: AppColor.white),)
+
                         ],
                       ),
                     ),
@@ -144,7 +202,7 @@ class _TabView1State extends StateMVC<TabView1> {
                 height: 15.h,
               ),
             const Text('Current Balance', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
-            const Text('N 1,000,000.00', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
+            const Text('N 0.00', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
             SizedBox(
               height: 1.h,
             ),
@@ -155,15 +213,13 @@ class _TabView1State extends StateMVC<TabView1> {
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TransactionType(type: 'Request', color: Colors.white, textColor: Colors.black,),
-                  SizedBox(
-                    width: 15.w,
-                  ),
+
                   GestureDetector(
                       onTap: (){
-                        Routers.push(context, const SendTransaction());
+                        Routers.push(context,  CreateWallet(privAddress: '',pubAddress: '', ));
+
                       },
-                      child: TransactionType(type: 'Send', color: Colors.black, textColor: Colors.white,)),
+                      child: TransactionType(type: 'Create Wallet', color: Colors.black, textColor: Colors.white,)),
                 ],
               ),
 

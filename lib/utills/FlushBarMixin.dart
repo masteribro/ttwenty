@@ -36,23 +36,24 @@ mixin FlushBarMixin {
     });
   }
 
-  void showErrorNotification(BuildContext context ,String? message) {
+  void showErrorNotification(BuildContext context ,String? message, int timeInSeconds) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Flushbar(
-        message: message,
-        messageText: Text("$message"),
-        userInputForm: const Form(child: Text("Unable to proceed",)),
-        icon: Icon(
-          Icons.info_outline,
-          size: 28.0,
-          color: Colors.red[300],
-        ),
-        duration: const Duration(seconds: 2),
-        leftBarIndicatorColor: Colors.red[300],
-        flushbarPosition: FlushbarPosition.TOP,
+          backgroundColor: Colors.white,
+          message: message,
+          messageText: Text("$message"),
+          icon: const Icon(
+            Icons.info_outline,
+            size: 28.0,
+            color: Colors.red,
+          ),
+          duration: Duration(seconds: timeInSeconds),
+          leftBarIndicatorColor: Colors.red,
+          flushbarPosition: FlushbarPosition.TOP
       ).show(context);
     });
   }
+
 
   void showErrorNotificationWithCallback(BuildContext context ,String message, {Function? callback}) {
     SchedulerBinding.instance.addPostFrameCallback((_) {

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -20,6 +21,11 @@ class _ProfileState extends StateMVC<Profile> {
     con = controller as AuthController;
   }
   late AuthController con;
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getAccount(){
+    var userInstance = FirebaseAuth.instance.currentUser;
+    return FirebaseFirestore.instance.collection('userDetails').doc(userInstance!.uid).snapshots();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,10 +55,10 @@ class _ProfileState extends StateMVC<Profile> {
               SizedBox(
                 height: 1.h,
               ),
-              StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('user').snapshots(),
+              StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                  stream: getAccount(),
                   builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                      AsyncSnapshot<DocumentSnapshot<Map<String,dynamic>>> snapshot) {
                     if (!snapshot.hasData) {
                       return const Center(
                         child: CircularProgressIndicator(),
@@ -60,17 +66,20 @@ class _ProfileState extends StateMVC<Profile> {
                     }
 
                     return ListView(
-                      shrinkWrap: true,
-                      children: snapshot.data!.docs.map((document) {
-                        return Column(
-                          children: [
-                            Center(child: Text('${document['fName']} ${document['lName']}',style: TextStyle(fontWeight: FontWeight.bold),)),
-                            Center(child: Text('${document['email']}')),
-                          ],
-                        );
-                      }).toList(),
-                    );
+                        shrinkWrap: true,
+                        children: [
+                          Column(
+                            children: [
+                              Center(child: Text(
+                                '${snapshot.data?['fName']} ${snapshot.data?['lName']}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),)),
+                              Center(child: Text('${snapshot.data?['email']}')),
+                            ],
+                          ),
+                        ]);
                   }),
+
               SizedBox(
                 height: 2.h,
               ),
