@@ -35,6 +35,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   final AuthModel model;
   String error = '';
   bool iconVisibility = false;
+  int? balance;
 
   final AuthRepo authRepo = AuthRepo();
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -74,7 +75,8 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         }
       } on FirebaseAuthException catch (e) {
         print(e);
-        showSuccessNotification(state!.context, '$e');
+        showErrorNotification(state!.context, '$e', 7);
+
       }
 
       setState(() {
@@ -93,8 +95,9 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         String password,email;
         password = model.regPasswordController.text.trim();
         email = model.regEmailController.text.trim();
-        dynamic result = await registerWithEmailAndPassword(email, password);
-        createUser(fName: model.regFirstNameController.text, lName: model.regLastNameController.text, email: model.regEmailController.text, phoneNo: model.regPhoneNumberController.text);
+        UserModel result = await registerWithEmailAndPassword(email, password);
+        print("get registration data ${result}");
+        await createUser(result,fName: model.regFirstNameController.text, lName: model.regLastNameController.text, email: model.regEmailController.text, phoneNo: model.regPhoneNumberController.text, );
         if(result != null) {
           Routers.push(state!.context, HomePage());
           showSuccessNotificationWithTime(state!.context,'success', 5);
@@ -159,7 +162,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
         );
       } else {
-        showErrorNotification(state!.context, 'error');
+        showErrorNotification(state!.context, 'error', 5);
       }
     }
     setState(() {
@@ -194,7 +197,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   void signOut() async {
     try{
       await FirebaseAuth.instance.signOut();
-      Routers.replace(state!.context, const OnboardingPage());
+      Routers.replaceAll(state!.context, const OnboardingPage());
       showSuccessNotificationWithTime(state!.context,'Signed out', 5);
     }on FirebaseAuthException catch(e){
       print(e);
@@ -203,27 +206,28 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
 
   Future createUser(
+      UserModel user,
       {required fName,
         required lName,
         required email,
         required phoneNo,
       })
   async{
-    final docUser = FirebaseFirestore.instance.collection("user").doc();
     final json = {
       "fName":fName,
       "lName":lName,
       "email":email,
       "phoneNo": phoneNo,
     };
-    if(docUser.path.isNotEmpty) {
-      await docUser.set(json);
-      // showSuccessNotificationWithTime(state!.context,'success', 5);
-    }else{
-      null;
-    }
+    // final data =   FirebaseFirestore.instance.collection("userDetails").doc().set(json).then((value) => print("done"));
+    try{
+      String id = user.uid;
+      await  FirebaseFirestore.instance.collection("userDetails").doc(id).set(json).then((value) => print("done"));
 
-  }
+  }catch(e){
+
+
+  }}
 
 }
 

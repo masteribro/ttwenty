@@ -71,8 +71,8 @@ class _HomePageState extends StateMVC<HomePage> with SingleTickerProviderStateMi
             backgroundColor: AppColor.black,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.currency_bitcoin_sharp),
-            label: 'Invest',
+            icon: Icon(Icons.compare_arrows_rounded),
+            label: 'Transfer',
             backgroundColor: AppColor.black,
           ),
           BottomNavigationBarItem(

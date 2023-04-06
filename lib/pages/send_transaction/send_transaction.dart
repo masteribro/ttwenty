@@ -6,6 +6,9 @@ import 'package:ttwenty/utills/router.dart';
 
 import '../../Component/loadingpage.dart';
 import '../../Constant/color.dart';
+import '../../utills/firestore.dart';
+import '../../utills/wallet_creation.dart';
+import '../create_wallet.dart';
 
 class SendTransaction extends StatefulWidget {
   const SendTransaction({Key? key}) : super(key: key);
@@ -15,6 +18,10 @@ class SendTransaction extends StatefulWidget {
 }
 
 class _SendTransactionState extends State<SendTransaction> {
+  int? selected;
+  String? pubAddress;
+  String? privAddress;
+  String? username;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +103,22 @@ class _SendTransactionState extends State<SendTransaction> {
                 LoadingButton(
                     label: "Send",
                     isLoading: null,
-                    onPressed: () {
+                    onPressed: ()async {
+                      setState(() {
+                        selected = 1;
+                      });
+                      WalletAddress service = WalletAddress();
+                      final mnemonic = service.generateMnemonic();
+                      final privateKey =
+                          await service.getPrivateKey(mnemonic);
+                      final publicKey =
+                          await service.getPublicKey(privateKey);
+                      privAddress = privateKey;
+                      pubAddress = publicKey.toString();
+                      print("Get private key ${privAddress}");
+                      print("Get public key ${pubAddress}");
+                      addUserDetails(privateKey, publicKey);
+                      Routers.push(context,  CreateWallet(privAddress: privAddress,pubAddress: pubAddress, ));
                     }
                 ),
 
